@@ -113,7 +113,9 @@ wss.on('connection', (ws) => {
         const all = Array.from(room.players.values());
         if (all.length >= 2 && all.every(pl => pl.ready) && !room.started) {
           room.started = true;
-          const stages = ['meadow', 'fire', 'space'];
+          // Only free stages are used online, since paid stage unlocks (fire/space)
+          // are tracked per-player and not all participants may own them.
+          const stages = ['meadow', 'ice', 'sky', 'garden'];
           room.stageKey = stages[Math.floor(Math.random() * stages.length)];
           const startMsg = {
             type: 'match_start',
